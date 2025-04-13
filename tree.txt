@@ -1,0 +1,50 @@
+felipe@MacBook-Pro-de-Felipe-2 backend-bitacora % tree -I 'node_modules|dist|.git' -a
+
+.
+├── .env
+├── .eslintrc.js
+├── .gitignore
+├── .prettierrc
+├── README.md
+├── libs
+│   ├── config
+│   │   ├── envs.ts
+│   │   └── index.ts
+│   ├── dto
+│   │   └── users.dto.ts
+│   └── entities
+│       ├── fuel-load.entity.ts
+│       ├── item.entity.ts
+│       ├── provider.entity.ts
+│       ├── service.entity.ts
+│       ├── user.entity.ts
+│       └── vehicle.entity.ts
+├── nest-cli.json
+├── package-lock.json
+├── package.json
+├── src
+│   ├── app.module.ts
+│   ├── auth
+│   │   ├── auth.controller.ts
+│   │   └── auth.service.ts
+│   ├── fuel-loads
+│   │   ├── fuel-loads.controller.ts
+│   │   └── fuel-loads.service.ts
+│   ├── items
+│   │   ├── items.controller.ts
+│   │   └── items.service.ts
+│   ├── main.ts
+│   ├── providers
+│   │   ├── providers.controller.ts
+│   │   └── providers.service.ts
+│   ├── services
+│   │   ├── services.controller.ts
+│   │   └── services.service.ts
+│   ├── users
+│   │   ├── users.controller.ts
+│   │   └── users.service.ts
+│   └── vehicles
+│       ├── vehicles.controller.ts
+│       └── vehicles.service.ts
+├── tree.txt
+├── tsconfig.build.jso
