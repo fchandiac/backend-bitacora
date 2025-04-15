@@ -35,7 +35,7 @@ import { envs } from 'libs/config';
       password: envs.database.password,
       database: envs.database.DatabaseName,
       entities: [User, Vehicle, Provider, Service, Item, FuelLoad],
-      synchronize: true, // ⚠️ solo para desarrollo
+      synchronize: false, // ⚠️ solo para desarrollo
     }),
     TypeOrmModule.forFeature([User, Vehicle, Provider, Service, Item, FuelLoad]),
   ],
