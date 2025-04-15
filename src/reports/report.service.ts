@@ -21,31 +21,74 @@ export class ReportService {
     private readonly dataSource: DataSource,
   ) {}
 
-  async getHistorialServiciosPorVehiculo(
-    vehicleId: number,
-    startDate: string,
-    endDate: string,
-  ) {
-    const servicios = await this.serviceRepo.find({
-      where: {
-        vehicle: { id: vehicleId },
-        date: Between(new Date(startDate), new Date(endDate)),
-      },
-      relations: ['vehicle', 'provider', 'items'],
-      order: { date: 'ASC' },
-    });
+// async getHistorialServiciosPorVehiculo(
+//   vehicleId: number,
+//   startDate: string,
+//   endDate: string,
+// ) {
+//   const servicios = await this.serviceRepo.find({
+//     where: {
+//       vehicle: { id: vehicleId },
+//       date: Between(new Date(startDate), new Date(endDate)),
+//     },
+//     relations: ['vehicle', 'provider', 'items'],
+//     order: { date: 'ASC' },
+//   });
 
-    return servicios.map((s) => ({
+//   return servicios.map((s) => {
+//     const itemsCost = s.items?.reduce((acc, item) => acc + (item.cost || 0), 0) || 0;
+
+//     return {
+//       id: s.id,
+//       date: s.date,
+//       type: s.type,
+//       performedBy: s.performedBy,
+//       provider: s.provider ? s.provider.name : '',
+//       mileage: s.mileage,
+//       serviceCost: s.cost || 0,
+//       itemsCost,
+//       totalCost: (s.cost || 0) + itemsCost,
+//       itemsCount: s.items?.length || 0,
+//     };
+//   });
+// }
+
+async getHistorialServiciosPorVehiculo(
+  vehicleId: number,
+  startDate: string,
+  endDate: string,
+) {
+  const servicios = await this.serviceRepo.find({
+    where: {
+      vehicle: { id: vehicleId },
+      date: Between(new Date(startDate), new Date(endDate)),
+    },
+    relations: ['vehicle', 'provider', 'items'],
+    order: { date: 'ASC' },
+  });
+
+  return servicios.map((s) => {
+    const itemsCost = (s.items || []).reduce((acc, item) => {
+      const price = item.unitPrice || 0;
+      const qty = item.quantity || 0;
+      return acc + price * qty;
+    }, 0);
+
+    return {
       id: s.id,
       date: s.date,
       type: s.type,
       performedBy: s.performedBy,
-      provider: s.provider ? s.provider.name : '',
+      provider: s.provider?.name || '',
       mileage: s.mileage,
-      cost: s.cost || 0,
+      cost: (s.cost || 0) + itemsCost,
       itemsCount: s.items?.length || 0,
-    }));
-  }
+    };
+  });
+}
+
+
+
 
   async getServiciosPorProveedor(startDate: string, endDate: string) {
     return this.dataSource.query(
